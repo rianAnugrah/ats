@@ -1,0 +1,87 @@
+header, main, footer {
+    padding-left: 300px;
+    padding-right: 20px;
+}
+
+@media only screen and (max-width : 992px) {
+    header, main, footer {
+        padding-left: 0;
+    }
+}
+.sidenav{
+    border-radius: 10px;
+    margin : 10px;
+    width: 280px;
+    height: calc( 100% - 20px) !important;
+    
+}
+nav{
+    border-radius: 10px;  
+    margin-top: 10px;
+    margin-left : 10px;
+    margin-right : 50px !important;
+}
+hr{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.paper {
+    padding : 20px !important;
+    margin : 10px !important;
+    border-radius : 10px;
+}
+
+.filter {
+    padding : 10px;
+    padding-top : 20px !important;
+    margin : 10px !important;
+    border-radius : 10px;
+}
+
+.blue-raspberry{
+    background: #4fc3f7 ;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #0083B0, #4fc3f7 );  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #0083B0, #4fc3f7 ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+.blue-raspberry-flat{
+    background: #00B4DB;  /* fallback for old browsers */
+    
+}
+.box{
+    width : 80px;
+    height: 80px;
+    margin: auto;
+    border-radius: 10px;
+}
+.btn{
+    border-radius: 100px;
+}
+.avatar{
+    margin : auto;
+    margin-top : 25px;
+    margin-bottom : 25px;
+}
+
+.login{
+    margin-left:20px !important;
+    min-height: 100vh !important;
+}
+
+.login-form{
+    border-radius: 20px;
+    padding : 20px;
+}
+
+.sidenav_logo{
+    margin:auto;
+    height:150px;
+    width:150px;
+    margin-left : 30px;
+}
+
+.tab-content{
+    /* min-height : 500px !important; */
+    overflow-y: auto;
+}
