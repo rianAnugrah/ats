@@ -1,7 +1,7 @@
 import React , {Component}from 'react'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { signOut } from  '../../store/actions/authActions'
+import { signOut } from  '../../scenes/auth/authActions'
 import M from "materialize-css/dist/js/materialize.min.js";
 // import "materialize-css/dist/css/materialize.min.css";
 
@@ -64,7 +64,7 @@ render(){
                 <span className="white-text">Report</span>
             </NavLink>
         </li>
-        <li>
+        <li className="hide">
             <NavLink to='/trend'>
                 <i className="material-icons white-text">assessment</i>
                 <span className="white-text">Trend</span>
@@ -76,7 +76,7 @@ render(){
                 <span className="white-text">Users</span>
             </NavLink>
         </li>
-        <li>
+        <li className="hide">
             <NavLink to='/setting'>
                 <i className="material-icons white-text">settings</i>
                 <span className="white-text">Setting</span>

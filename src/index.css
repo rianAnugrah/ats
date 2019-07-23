@@ -57,6 +57,7 @@ hr{
 }
 .btn{
     border-radius: 100px;
+    min-width: 150px;
 }
 .avatar{
     margin : auto;
@@ -85,3 +86,4 @@ hr{
     /* min-height : 500px !important; */
     overflow-y: auto;
 }
+
