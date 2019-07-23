@@ -1,0 +1,41 @@
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // match /{document=**} {
+    //   allow read, write;
+    // }
+    // 
+    // 
+    match /projects/{projects}{
+    	allow read, write: if request.auth.uid != null
+    }
+    match /col_kategori/{col_kategori}{
+    	allow read, write: if request.auth.uid != null
+    }
+    match /col_area/{col_area}{
+    	allow read, write: if request.auth.uid != null
+    }
+    match /col_jenis/{col_jenis}{
+    	allow read, write: if request.auth.uid != null
+    }
+    match /col_lokasi/{col_lokasi}{
+    	allow read, write: if request.auth.uid != null
+    }
+    match /col_pic/{col_pic}{
+    	allow read, write: if request.auth.uid != null
+    }
+    match /col_prioritas/{col_prioritas}{
+    	allow read, write: if request.auth.uid != null
+    }
+    match /col_status/{col_status}{
+    	allow read, write: if request.auth.uid != null
+    }
+        match /col_pct/{col_pct}{
+    	allow read, write: if request.auth.uid != null
+    }
+    match /users/{userId} {
+    	allow create
+      allow read: if request.auth.uid != null
+      allow write: if request.auth.uid == userId
+    }
+  }
+}

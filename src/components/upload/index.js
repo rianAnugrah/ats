@@ -28,23 +28,28 @@ class Upload extends Component {
       .ref("images")
       .child(filename)
       .getDownloadURL()
-      .then(url => this.setState({ avatarURL: url }));
+      .then(url => { 
+        console.log(url)
+        this.props.change_url(url);
+        this.setState({ avatarURL: url })
+       });
   };
  
   render() {
     return (
       <div>
         <form>
-          <label>Username:</label>
+          {/* <label>Username:</label>
           <input
             type="text"
             value={this.state.username}
             name="username"
             onChange={this.handleChangeUsername}
           />
-          <label>Avatar:</label>
+          <label>Avatar:</label> */}
           {this.state.isUploading && <p>Progress: {this.state.progress}</p>}
-          {this.state.avatarURL && <img src={this.state.avatarURL} />}
+          {this.state.avatarURL && <img src={this.state.avatarURL} width="300" />}
+          <br/>
           <FileUploader
             accept="image/*"
             name="avatar"

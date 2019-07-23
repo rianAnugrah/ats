@@ -3,12 +3,15 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
-import { Redirect , Link} from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
+import { MediaBox } from "react-materialize";
+import moment from "moment";
 
 class PctData extends Component {
   render() {
     console.log(this.props);
-    const { pct, auth } = this.props;
+    const { pct, kategori, auth, area, status, prioritas } = this.props;
+    let i = 0;
     if (!auth.uid) return <Redirect to="/signin" />;
     return (
       <Fragment>
@@ -17,7 +20,10 @@ class PctData extends Component {
             <h4>Physical Condition Tour</h4>
           </div>
           <div className="input-field col s5 m3 ">
-            <Link to="/pctadd" className="waves-effect waves-light light-blue lighten-2 btn round">
+            <Link
+              to="/pctadd"
+              className="waves-effect waves-light light-blue lighten-2 btn round"
+            >
               <i className="material-icons left">add_to_photos</i>New
             </Link>
           </div>
@@ -28,16 +34,96 @@ class PctData extends Component {
             <label htmlFor="icon_prefix">Search</label>
           </div>
           <div className="col s12 paper z-depth-1">
-            {/* {pct && pct.map(item => { 
-                return (
-                    <ul key={item.id}>{item.tgl_temuan}</ul>
-                )
-            })} */}
+            <table className="responsive highlight">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Tanggal Temuan</th>
+                  <th>Kategori</th>
+                  <th>Before</th>
+                  <th>After</th>
+                  <th>Status</th>
+                  <th>Prioritas</th>
+                  <th />
+                </tr>
+              </thead>
 
-          
+              <tbody>
+                {pct &&
+                  pct.map(item => {
+                    i = i + 1;
+
+                    return (
+                      <tr key={item.id}>
+                        <td>{i}</td>
+                        <td>{moment(item.tgl_temuan).format("MMM Do YY")}</td>
+                        <td>
+                          {kategori &&
+                            kategori.map(kat => {
+                              if (item.kategori == kat.id) {
+                                console.log("kategori : " + kat.nama);
+                                return kat.nama;
+                              }
+                            })}
+                        </td>
+                        <td>
+                          <MediaBox>
+                            <img
+                              src={item.before}
+                              width="50"
+                              alt=""
+                            />
+                          </MediaBox>
+                        </td>
+                        <td>
+                          <MediaBox>
+                            <img
+                              src={item.after}
+                              width="50"
+                              alt=""
+                            />
+                          </MediaBox>
+                        </td>
+                        <td>
+                          {status &&
+                            status.map(it => {
+                              if (item.status == it.id) {
+                                console.log("status : " + it.nama);
+                                return it.nama;
+                              }
+                            })}
+                        </td>
+                        <td>
+                          {prioritas &&
+                            prioritas.map(it => {
+                              if (item.prioritas == it.id) {
+                                console.log("prioritas : " + it.nama);
+                                return it.nama;
+                              }
+                            })}
+                        </td>
+                        <td>
+                          <Link
+                            to="pctEdit/:id"
+                            className="btn-floating btn-small waves-effect waves-light orange"
+                          >
+                            <i className="material-icons">edit</i>
+                          </Link>
+                          &nbsp; &nbsp;
+                          <Link
+                            to="pctDelete/:id"
+                            className="btn-floating btn-small waves-effect waves-light red"
+                          >
+                            <i className="material-icons">delete</i>
+                          </Link>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
           </div>
         </div>
-          
       </Fragment>
     );
   }
