@@ -9,6 +9,7 @@ import SignIn from './scenes/auth/SignIn'
 import SignUp from './scenes/auth/SignUp'
 import master from './scenes/master/master';
 import CreateProject from './scenes/projects/CreateProject'
+import Promise from './scenes/promise';
 
 class App extends Component {
   render() {
@@ -32,6 +33,10 @@ class App extends Component {
             <Route path='/signup' component={SignUp} />
             <Route path='/master' component={master} />
             <Route path='/create' component={CreateProject} />
+
+            {/* <Route path='/promise' component={Promise} /> */}
+
+
           </Switch>
           </main>
           <footer></footer>

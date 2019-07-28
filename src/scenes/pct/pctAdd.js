@@ -33,6 +33,8 @@ class PctAdd extends Component {
       status: "",
       tgl_close: "",
       tgl_temuan: "",
+
+      redirect: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -81,9 +83,9 @@ class PctAdd extends Component {
   handleSubmit(e) {
     e.preventDefault();
     console.log("submit");
-    this.props.addPCT(this.state);
-    alert('Data Saved');
-    return <Redirect to="/pct" /> ;
+    this.props.addPCT(this.state).then(this.setState({ redirect : true}));
+
+   
   }
   render() {
     const {
@@ -94,9 +96,10 @@ class PctAdd extends Component {
       area,
       lokasi,
       status,
-      pic
+      pic,
     } = this.props;
     if (!auth.uid) return <Redirect to="/signin" />;
+    if (this.state.redirect == true) return <Redirect to="/pct" />;
     console.log(this.props);
     //console.log(kategori)
     return (
@@ -289,7 +292,7 @@ const mapStateToProps = state => {
     pic: state.firestore.ordered.col_pic,
     prioritas: state.firestore.ordered.col_prioritas,
     users: state.firestore.ordered.users,
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
   };
 };
 

@@ -30,11 +30,11 @@ class MasterAdd extends Component {
         <form className="white col s12" onSubmit={this.handleSubmit}>
           <h5 className="grey-text text-darken-3">Tambah {this.state.col}</h5>
           <div className="input-field">
-            <input type="text" id='nama' onChange={this.handleChange} />
+            <input type="text" required id='nama' onChange={this.handleChange} />
             <label htmlFor="title">Nama</label>
           </div>
           <div className="input-field">
-            <textarea id="desc" className="materialize-textarea" onChange={this.handleChange}></textarea>
+            <textarea id="desc" required className="materialize-textarea" onChange={this.handleChange}></textarea>
             <label htmlFor="content">Deskripsi</label>
           </div>
           <div className="input-field">

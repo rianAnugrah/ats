@@ -4,10 +4,15 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Redirect, Link } from "react-router-dom";
-import { MediaBox } from "react-materialize";
+import { MediaBox, Button } from "react-materialize";
+import { deletePCT } from "./pctActions";
 import moment from "moment";
 
 class PctData extends Component {
+  delete(id) {
+    this.props.deletePCT(id).then(console.log("deleted"));
+  }
+
   render() {
     console.log(this.props);
     const { pct, kategori, auth, area, status, prioritas } = this.props;
@@ -52,7 +57,7 @@ class PctData extends Component {
                 {pct &&
                   pct.map(item => {
                     i = i + 1;
-
+                    if (item.status == 'active'){
                     return (
                       <tr key={item.id}>
                         <td>{i}</td>
@@ -68,20 +73,12 @@ class PctData extends Component {
                         </td>
                         <td>
                           <MediaBox>
-                            <img
-                              src={item.before}
-                              width="50"
-                              alt=""
-                            />
+                            <img src={item.before} width="50" alt="" />
                           </MediaBox>
                         </td>
                         <td>
                           <MediaBox>
-                            <img
-                              src={item.after}
-                              width="50"
-                              alt=""
-                            />
+                            <img src={item.after} width="50" alt="" />
                           </MediaBox>
                         </td>
                         <td>
@@ -103,22 +100,22 @@ class PctData extends Component {
                             })}
                         </td>
                         <td>
-                          <Link
-                            to="pctEdit/:id"
+                          <a
+                            to="pctEdit/:{id}"
                             className="btn-floating btn-small waves-effect waves-light orange"
                           >
                             <i className="material-icons">edit</i>
-                          </Link>
+                          </a>
                           &nbsp; &nbsp;
-                          <Link
-                            to="pctDelete/:id"
+                          <a
+                            onClick={() => this.delete(item.id)}
                             className="btn-floating btn-small waves-effect waves-light red"
                           >
                             <i className="material-icons">delete</i>
-                          </Link>
+                          </a>
                         </td>
                       </tr>
-                    );
+                    );}
                   })}
               </tbody>
             </table>
@@ -145,8 +142,17 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    deletePCT: id => dispatch(deletePCT(id))
+  };
+};
+
 export default compose(
-  connect(mapStateToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   firestoreConnect([
     "col_kategori",
     "col_area",
