@@ -33,7 +33,7 @@ render(){
 
 
     
-        <li>
+        <li className="hide">
             <NavLink to='/'>
                 <i className="material-icons white-text">dashboard</i>
                     <span className="white-text">Dashboard</span>
@@ -57,8 +57,14 @@ render(){
                 <span className="white-text">Master Data</span>
             </NavLink>
         </li>
-
         <li>
+            <NavLink to='/submaster'>
+                <i className="material-icons white-text">folder</i>
+                <span className="white-text">Sub Kategori</span>
+            </NavLink>
+        </li>
+
+        <li >
             <NavLink to='/report'>
                 <i className="material-icons white-text">assignment</i>
                 <span className="white-text">Report</span>
@@ -70,7 +76,7 @@ render(){
                 <span className="white-text">Trend</span>
             </NavLink>
         </li>
-        <li>
+        <li className="hide">
             <NavLink to='/users'>
                 <i className="material-icons white-text">wc</i>
                 <span className="white-text">Users</span>

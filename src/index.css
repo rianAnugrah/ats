@@ -9,10 +9,10 @@ header, main, footer {
     }
 }
 .sidenav{
-    border-radius: 10px;
-    margin : 10px;
+    /* border-radius: 10px; */
+    /* margin : 10px; */
     width: 280px;
-    height: calc( 100% - 20px) !important;
+    height: calc( 100% - 0px) !important;
     
 }
 nav{
