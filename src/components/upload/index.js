@@ -3,7 +3,6 @@ import firebase from "firebase";
 import FileUploader from "react-firebase-file-uploader";
 import { connect } from "react-redux";
 
- 
 class Upload extends Component {
   state = {
     username: "",
@@ -12,7 +11,7 @@ class Upload extends Component {
     progress: 0,
     avatarURL: ""
   };
- 
+
   handleChangeUsername = event =>
     this.setState({ username: event.target.value });
   handleUploadStart = () => this.setState({ isUploading: true, progress: 0 });
@@ -28,14 +27,17 @@ class Upload extends Component {
       .ref("images")
       .child(filename)
       .getDownloadURL()
-      .then(url => { 
-        console.log(url)
+      .then(url => {
+        console.log(url);
         this.props.change_url(url);
-        this.setState({ avatarURL: url })
-       });
+        this.setState({ avatarURL: url });
+      });
   };
- 
+
+  componentDidMount() {}
+
   render() {
+    console.log(this.props.value);
     return (
       <div>
         <form>
@@ -48,8 +50,16 @@ class Upload extends Component {
           />
           <label>Avatar:</label> */}
           {this.state.isUploading && <p>Progress: {this.state.progress}</p>}
-          {this.state.avatarURL && <img src={this.state.avatarURL} width="300" />}
-          <br/>
+
+          
+          {this.state.avatarURL ? (
+            <img src={this.state.avatarURL} width="300" />
+          ) : (
+            this.props.value && (
+              <img src={this.props.value} width="300" />
+            )
+          )}
+          <br />
           <FileUploader
             accept="image/*"
             name="avatar"
@@ -65,5 +75,5 @@ class Upload extends Component {
     );
   }
 }
- 
+
 export default Upload;

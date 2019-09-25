@@ -60,6 +60,7 @@ class SignedInLinks extends Component {
               <span className="white-text">Progress</span>
             </NavLink>
           </li>
+          
           <li>
             <NavLink to="/master">
               <i className="material-icons white-text">folder</i>

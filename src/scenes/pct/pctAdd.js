@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Redirect, Link } from "react-router-dom";
-import { addPCT } from "./pctActions";
+import { addPCT, updatePCT } from "./pctActions";
 import Upload from "../../components/upload";
 import Textarea from "react-materialize/lib/Textarea";
 import moment from "moment";
@@ -21,21 +21,22 @@ class PctAdd extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      colName: "col_pct",
-      after: "",
-      before: "",
-      area: "",
-      deskripsi: "",
-      jenis: "",
-      kategori: "",
-      sub_kategori: "",
-      lokasi: "",
-      pic: "",
-      prioritas: "",
-      status: "",
-      tgl_close: "",
-      tgl_temuan: "",
-
+      postData: {
+        colName: "col_pct",
+        after: "",
+        before: "",
+        area: "",
+        deskripsi: "",
+        jenis: "",
+        kategori: "",
+        sub_kategori: "",
+        lokasi: "",
+        pic: "",
+        prioritas: "",
+        status: "",
+        tgl_close: "",
+        tgl_temuan: ""
+      },
       redirect: false
     };
     this.handleChange = this.handleChange.bind(this);
@@ -52,59 +53,98 @@ class PctAdd extends Component {
     // console.log(e.target.name);
 
     this.setState({
-      [e.target.name]: e.target.value
+      ...this.state,
+      postData: {
+        ...this.state.postData,
+        [e.target.name]: e.target.value
+      }
     });
   }
 
   handleUploadAfter = url_link => {
-    this.setState({ after: url_link });
+    this.setState({
+      ...this.state,
+      postData: {
+        ...this.state.postData,
+        after: url_link
+      }
+    });
   };
 
   handleUploadBefore = url_link => {
-    this.setState({ before: url_link });
+    this.setState({
+      ...this.state,
+      postData: {
+        ...this.state.postData,
+        before: url_link
+      }
+    });
   };
 
   handleChangeTglTemuan(e) {
-    console.log(JSON.stringify(e));
     this.setState({
-      tgl_temuan: moment(e)
-        .toDate()
-        .toISOString()
+      ...this.state,
+      postData: {
+        ...this.state.postData,
+        tgl_temuan: moment(e)
+          .toDate()
+          .toISOString()
+      }
     });
   }
 
   handleChangeTglClose(e) {
-    console.log(JSON.stringify(e));
     this.setState({
-      tgl_close: moment(e)
-        .toDate()
-        .toISOString()
+      ...this.state,
+      postData: {
+        ...this.state.postData,
+        tgl_close: moment(e)
+          .toDate()
+          .toISOString()
+      }
     });
   }
 
   handleSubmit(e) {
     e.preventDefault();
     console.log("submit");
-    this.props.addPCT(this.state).then(this.setState({ redirect: true }));
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const { sub_kategori } = this.props;
-    const { kategori } = this.state;
-
-    let sub = [];
-    if (prevState.kategori !== kategori) {
-      // console.log(prevState.kategori, kategori , sub_kategori);
-
-      sub =
-        this.props.sub_kategori &&
-        this.props.sub_kategori.filter(item => {
-          return item.kategori === this.state.kategori;
-        });
-      //console.log(this.state.kategori, sub)
-      this.setState({ ...this.state.subs, subs: sub });
+    if (!this.state.value.id) {
+      this.props
+        .addPCT(this.state.postData)
+        .then(this.setState({ redirect: true }));
+    } else {
+      this.props
+        .updatePCT(this.state.postData, this.state.value.id)
+        .then(this.setState({ redirect: true }));
     }
   }
+
+  componentDidMount() {
+    if (this.props.location.state) {
+      const { value } = this.props.location.state;
+      this.setState({
+        ...this.state,
+        postData: {
+          ...this.state.postData,
+          kategori: value.kategori,
+          after: value.after,
+          before: value.before,
+          area: value.area,
+          deskripsi: value.deskripsi,
+          jenis: value.jenis,
+          sub_kategori: value.sub_kategori,
+          lokasi: value.lokasi,
+          pic: value.pic,
+          prioritas: value.prioritas,
+          status: value.status,
+          tgl_close: value.tgl_close,
+          tgl_temuan: value.tgl_temuan
+        },
+        value: value
+      });
+    }
+  }
+
   render() {
     const {
       kategori,
@@ -115,13 +155,21 @@ class PctAdd extends Component {
       area,
       lokasi,
       status,
-      pic
+      pic,
+      location
     } = this.props;
 
-    const { subs } = this.state;
+    const { value, postData } = this.state;
+
+    let subs =
+      this.props.sub_kategori &&
+      this.props.sub_kategori.filter(item => {
+        return item.kategori === postData.kategori;
+      });
+
     if (!auth.uid) return <Redirect to="/signin" />;
     if (this.state.redirect == true) return <Redirect to="/pct" />;
-
+    console.log("POSTDATA", this.state.postData);
     return (
       <Fragment>
         <div className="row">
@@ -137,46 +185,55 @@ class PctAdd extends Component {
                 s="12"
                 validate="true"
                 onChange={this.handleChangeTglTemuan}
+                value={postData && moment(postData.tgl_temuan).format("MMM D, YYYY")}
               />
               <PctDropdown
                 items={kategori && kategori}
                 handleChange={this.handleChange}
                 name="kategori"
+                value={postData && postData.kategori}
               />
               <PctDropdown
                 items={subs && subs}
                 handleChange={this.handleChange}
                 name="sub_kategori"
+                value={postData && postData.sub_kategori}
               />
               <PctDropdown
                 items={pic && pic}
                 handleChange={this.handleChange}
                 name="pic"
+                value={postData && postData.pic}
               />
               <PctDropdown
                 items={area && area}
                 handleChange={this.handleChange}
                 name="area"
+                value={postData && postData.area}
               />
               <PctDropdown
                 items={lokasi && lokasi}
                 handleChange={this.handleChange}
                 name="lokasi"
+                value={postData && postData.lokasi}
               />
               <PctDropdown
                 items={prioritas && prioritas}
                 handleChange={this.handleChange}
                 name="prioritas"
+                value={postData && postData.prioritas}
               />
               <PctDropdown
                 items={status && status}
                 handleChange={this.handleChange}
                 name="status"
+                value={postData && postData.status}
               />
               <PctDropdown
                 items={jenis && jenis}
                 handleChange={this.handleChange}
                 name="jenis"
+                value={postData && postData.jenis}
               />
               <DatePicker
                 name="tgl_close"
@@ -184,6 +241,7 @@ class PctAdd extends Component {
                 xl="12"
                 s="12"
                 onChange={this.handleChangeTglClose}
+                value={postData && moment(postData.tgl_close).format("MMM D, YYYY")}
               />
               <Textarea
                 name="deskripsi"
@@ -191,13 +249,20 @@ class PctAdd extends Component {
                 xl="12"
                 s="12"
                 onChange={this.handleChange}
+                value={postData && postData.deskripsi}
               />
               Before
-              <Upload className="btn" change_url={this.handleUploadBefore} />
+              <Upload
+                change_url={this.handleUploadBefore}
+                value={postData && postData.before}
+              />
               <br />
               <Divider />
               After
-              <Upload change_url={this.handleUploadAfter} />
+              <Upload
+                change_url={this.handleUploadAfter}
+                value={postData && postData.after}
+              />
               <br />
               <button
                 className="waves-effect waves-light light-blue lighten-2 btn round"
@@ -229,10 +294,9 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    addPCT: postData => dispatch(addPCT(postData))
-  };
+const mapDispatchToProps = {
+  addPCT,
+  updatePCT
 };
 
 export default compose(

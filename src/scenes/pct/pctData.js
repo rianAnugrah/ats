@@ -57,7 +57,7 @@ class PctData extends Component {
                 {pct &&
                   pct.map(item => {
                     
-                    if (item.status == 'active'){
+                    if (item.flag == 'active'){
                       i = i + 1;
                     return (
                       <tr key={item.id}>
@@ -101,12 +101,18 @@ class PctData extends Component {
                             })}
                         </td>
                         <td>
-                          <a
-                            to="pctEdit/:{id}"
+                          <Link
+                            to={{
+                              pathname: '/pctadd',
+                              state: {
+                                value: item
+                              }
+                            }}
+                            
                             className="btn-floating btn-small waves-effect waves-light orange"
                           >
                             <i className="material-icons">edit</i>
-                          </a>
+                          </Link>
                           &nbsp; &nbsp;
                           <a
                             onClick={() => this.delete(item.id)}
@@ -131,6 +137,7 @@ const mapStateToProps = state => {
   //console.log(state);
   return {
     kategori: state.firestore.ordered.col_kategori,
+    sub_kategori: state.firestore.ordered.col_sub_kategori,
     area: state.firestore.ordered.col_area,
     status: state.firestore.ordered.col_status,
     jenis: state.firestore.ordered.col_jenis,

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Fragment, Component } from "react";
 import M from "materialize-css/dist/js/materialize.min.js";
 import { Select } from "react-materialize";
 import master from "../master/master";
@@ -16,14 +16,16 @@ export class SubMasterSelect extends Component {
         onChange={this.props.handleChange}
         name="kategori"
       >
-
-
         {items &&
-          items.map(item => {
+          items.map((item, index) => {
             return (
-              <option key={item.id} value={item.id}>
-                {item.nama}
-              </option>
+              <Fragment>
+                {index === 0 && <option value="">-- Pilih --</option>}
+
+                <option key={item.id} value={item.id}>
+                  {item.nama}
+                </option>
+              </Fragment>
             );
           })}
       </Select>

@@ -50,6 +50,7 @@ export function addPCT(postData, data) {
         deskripsi: postData.deskripsi,
         jenis: postData.jenis,
         kategori: postData.kategori,
+        sub_kategori: postData.sub_kategori,
         lokasi: postData.lokasi,
         pic: postData.pic,
         prioritas: postData.prioritas,
@@ -58,7 +59,8 @@ export function addPCT(postData, data) {
         tgl_temuan: postData.tgl_temuan,
         before: postData.before,
         after: postData.after,
-        status: "active", //active = data visible, deleted = data invisible
+        status: postData.status,
+        flag:"active" //active = data visible, deleted = data invisible
       })
         .then(response =>
           resolve(
@@ -97,6 +99,7 @@ export function updatePCT(postData, id) {
         deskripsi: postData.deskripsi,
         jenis: postData.jenis,
         kategori: postData.kategori,
+        sub_kategori: postData.sub_kategori,
         lokasi: postData.lokasi,
         pic: postData.pic,
         prioritas: postData.prioritas,
@@ -137,7 +140,7 @@ export function deletePCT(id) {
     return new Promise((resolve, reject) => {
     firestore
       .collection("col_pct")
-      .doc(id).update({status:"deleted"})
+      .doc(id).update({flag:"deleted"})
         .then(response =>
           resolve(
             dispatch({

@@ -9,7 +9,8 @@ export class PctDropdown extends Component {
   }
 
   render() {
-    const { handleChange, items, name } = this.props;
+    const { handleChange, items, name, value } = this.props;
+   
     return (
       <Select
         name={name.toLowerCase()}
@@ -24,7 +25,7 @@ export class PctDropdown extends Component {
               <Fragment>
                 {index === 0 && <option value="">-- Pilih --</option>}
 
-                <option key={item.id} value={item.id}>
+                <option key={item.id} value={item.id} selected={value && value === item.id}>
                   {item.nama}
                 </option>
               </Fragment>
