@@ -11,6 +11,9 @@ service cloud.firestore {
     match /col_kategori/{col_kategori}{
     	allow read, write: if request.auth.uid != null
     }
+    match /col_sub_kategori/{col_sub_kategori}{
+    	allow read, write: if request.auth.uid != null
+    }
     match /col_area/{col_area}{
     	allow read, write: if request.auth.uid != null
     }
@@ -29,7 +32,7 @@ service cloud.firestore {
     match /col_status/{col_status}{
     	allow read, write: if request.auth.uid != null
     }
-        match /col_pct/{col_pct}{
+    match /col_pct/{col_pct}{
     	allow read, write: if request.auth.uid != null
     }
     match /users/{userId} {
