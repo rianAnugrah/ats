@@ -15,6 +15,7 @@ import { addPCT } from "./pctActions";
 import Upload from "../../components/upload";
 import Textarea from "react-materialize/lib/Textarea";
 import moment from "moment";
+import PctDropdown from "./PctDropdown";
 
 class PctAdd extends Component {
   constructor(props) {
@@ -22,19 +23,20 @@ class PctAdd extends Component {
     this.state = {
       colName: "col_pct",
       after: "",
-      before:"",
+      before: "",
       area: "",
       deskripsi: "",
       jenis: "",
-      kategori: "", 
+      kategori: "",
+      sub_kategori: "",
       lokasi: "",
       pic: "",
-      prioritas: "" ,
+      prioritas: "",
       status: "",
       tgl_close: "",
       tgl_temuan: "",
 
-      redirect: false,
+      redirect: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -46,8 +48,8 @@ class PctAdd extends Component {
 
   handleChange(e) {
     //console.log(JSON.stringify(e))
-    //console.log(e.target.value);
-    //console.log(e.target.name);
+    // console.log(e.target.value);
+    // console.log(e.target.name);
 
     this.setState({
       [e.target.name]: e.target.value
@@ -83,28 +85,45 @@ class PctAdd extends Component {
   handleSubmit(e) {
     e.preventDefault();
     console.log("submit");
-    this.props.addPCT(this.state).then(this.setState({ redirect : true}));
+    this.props.addPCT(this.state).then(this.setState({ redirect: true }));
+  }
 
-   
+  componentDidUpdate(prevProps, prevState) {
+    const { sub_kategori } = this.props;
+    const { kategori } = this.state;
+
+    let sub = [];
+    if (prevState.kategori !== kategori) {
+      // console.log(prevState.kategori, kategori , sub_kategori);
+
+      sub =
+        this.props.sub_kategori &&
+        this.props.sub_kategori.filter(item => {
+          return item.kategori === this.state.kategori;
+        });
+      //console.log(this.state.kategori, sub)
+      this.setState({ ...this.state.subs, subs: sub });
+    }
   }
   render() {
     const {
       kategori,
+      sub_kategori,
       auth,
       jenis,
       prioritas,
       area,
       lokasi,
       status,
-      pic,
+      pic
     } = this.props;
+
+    const { subs } = this.state;
     if (!auth.uid) return <Redirect to="/signin" />;
     if (this.state.redirect == true) return <Redirect to="/pct" />;
-    console.log(this.props);
-    //console.log(kategori)
+
     return (
       <Fragment>
-        {console.log(this.state)}
         <div className="row">
           <div className="col s12">
             <h4>Physical Condition Tour</h4>
@@ -119,132 +138,46 @@ class PctAdd extends Component {
                 validate="true"
                 onChange={this.handleChangeTglTemuan}
               />
-              <Select
+              <PctDropdown
+                items={kategori && kategori}
+                handleChange={this.handleChange}
                 name="kategori"
-                label="Kategori"
-                xl="12"
-                s="12"
-                onChange={this.handleChange}
-                name="kategori"
-              >
-                {kategori &&
-                  kategori.map(item => {
-                    return (
-                      <option key={item.id} value={item.id}>
-                        {item.nama}
-                      </option>
-                    );
-                  })}
-              </Select>
-
-              <Select
+              />
+              <PctDropdown
+                items={subs && subs}
+                handleChange={this.handleChange}
+                name="sub_kategori"
+              />
+              <PctDropdown
+                items={pic && pic}
+                handleChange={this.handleChange}
                 name="pic"
-                label="pic"
-                xl="12"
-                s="12"
-                onChange={this.handleChange}
-                name="pic"
-              >
-                {pic &&
-                  pic.map(item => {
-                    return (
-                      <option key={item.id} value={item.id}>
-                        {item.nama}
-                      </option>
-                    );
-                  })}
-              </Select>
-
-              <Select
+              />
+              <PctDropdown
+                items={area && area}
+                handleChange={this.handleChange}
                 name="area"
-                label="area"
-                xl="12"
-                s="12"
-                onChange={this.handleChange}
-                name="area"
-              >
-                {area &&
-                  area.map(item => {
-                    return (
-                      <option key={item.id} value={item.id}>
-                        {item.nama}
-                      </option>
-                    );
-                  })}
-              </Select>
-
-              <Select
+              />
+              <PctDropdown
+                items={lokasi && lokasi}
+                handleChange={this.handleChange}
                 name="lokasi"
-                label="lokasi"
-                xl="12"
-                s="12"
-                onChange={this.handleChange}
-                name="lokasi"
-              >
-                {lokasi &&
-                  lokasi.map(item => {
-                    return (
-                      <option key={item.id} value={item.id}>
-                        {item.nama}
-                      </option>
-                    );
-                  })}
-              </Select>
-
-              <Select
+              />
+              <PctDropdown
+                items={prioritas && prioritas}
+                handleChange={this.handleChange}
                 name="prioritas"
-                label="prioritas"
-                xl="12"
-                s="12"
-                onChange={this.handleChange}
-                name="prioritas"
-              >
-                {prioritas &&
-                  prioritas.map(item => {
-                    return (
-                      <option key={item.id} value={item.id}>
-                        {item.nama}
-                      </option>
-                    );
-                  })}
-              </Select>
-
-              <Select
+              />
+              <PctDropdown
+                items={status && status}
+                handleChange={this.handleChange}
                 name="status"
-                label="status"
-                xl="12"
-                s="12"
-                onChange={this.handleChange}
-                name="status"
-              >
-                {status &&
-                  status.map(item => {
-                    return (
-                      <option key={item.id} value={item.id}>
-                        {item.nama}
-                      </option>
-                    );
-                  })}
-              </Select>
-
-              <Select
+              />
+              <PctDropdown
+                items={jenis && jenis}
+                handleChange={this.handleChange}
                 name="jenis"
-                label="jenis"
-                xl="12"
-                s="12"
-                onChange={this.handleChange}
-                name="jenis"
-              >
-                {jenis &&
-                  jenis.map(item => {
-                    return (
-                      <option key={item.id} value={item.id}>
-                        {item.nama}
-                      </option>
-                    );
-                  })}
-              </Select>
-
+              />
               <DatePicker
                 name="tgl_close"
                 label="Tgl Close"
@@ -252,7 +185,6 @@ class PctAdd extends Component {
                 s="12"
                 onChange={this.handleChangeTglClose}
               />
-
               <Textarea
                 name="deskripsi"
                 label="Deskripsi"
@@ -261,11 +193,11 @@ class PctAdd extends Component {
                 onChange={this.handleChange}
               />
               Before
-              <Upload className="btn" change_url={this.handleUploadBefore}/>  
-                  <br />
-                <Divider />
+              <Upload className="btn" change_url={this.handleUploadBefore} />
+              <br />
+              <Divider />
               After
-              <Upload change_url={this.handleUploadAfter}/>
+              <Upload change_url={this.handleUploadAfter} />
               <br />
               <button
                 className="waves-effect waves-light light-blue lighten-2 btn round"
@@ -285,6 +217,7 @@ const mapStateToProps = state => {
   //console.log(state);
   return {
     kategori: state.firestore.ordered.col_kategori,
+    sub_kategori: state.firestore.ordered.col_sub_kategori,
     area: state.firestore.ordered.col_area,
     status: state.firestore.ordered.col_status,
     jenis: state.firestore.ordered.col_jenis,
@@ -292,7 +225,7 @@ const mapStateToProps = state => {
     pic: state.firestore.ordered.col_pic,
     prioritas: state.firestore.ordered.col_prioritas,
     users: state.firestore.ordered.users,
-    auth: state.firebase.auth,
+    auth: state.firebase.auth
   };
 };
 
@@ -316,6 +249,7 @@ export default compose(
     "col_pic",
     "col_prioritas",
     "col_status",
+    "col_sub_kategori",
     "users"
   ])
 )(PctAdd);

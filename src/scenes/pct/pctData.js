@@ -56,8 +56,9 @@ class PctData extends Component {
               <tbody>
                 {pct &&
                   pct.map(item => {
-                    i = i + 1;
+                    
                     if (item.status == 'active'){
+                      i = i + 1;
                     return (
                       <tr key={item.id}>
                         <td>{i}</td>

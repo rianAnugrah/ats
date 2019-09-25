@@ -24,12 +24,14 @@ export class SubMasterList extends Component {
           <tbody>
             {items &&
               items.map(item => {
-                this.no = this.no + 1;
+               
                 return (
                   item.kategori == masterId &&
                   item.kategori != "" && (
+                   
                     <tr key={item.id}>
-                      <td>{this.no}</td>
+                      
+                      <td> {this.no = this.no + 1}</td>
                       <td>{item.nama}</td>
                       <td>{item.desc}</td>
                     </tr>

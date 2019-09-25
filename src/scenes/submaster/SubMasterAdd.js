@@ -22,6 +22,10 @@ class SubMasterAdd extends Component {
     this.props.addSubMaster(this.state);
     this.props.handleClean();
     //this.props.history.push('/');
+    this.setState({
+      nama: "",
+      desc: ""
+    });
   };
 
   componentDidUpdate(prevState, prevProps) {
@@ -34,6 +38,7 @@ class SubMasterAdd extends Component {
 
   render() {
     const { auth } = this.props;
+    const { nama, desc } = this.state;
     console.log(this.state);
     if (!auth.uid) return <Redirect to="/signin" />;
     return (
@@ -41,7 +46,13 @@ class SubMasterAdd extends Component {
         <h5 className="grey-text text-darken-3">Tambah {this.state.col}</h5>
 
         <div className="input-field">
-          <input type="text" required id="nama" onChange={this.handleChange} />
+          <input
+            type="text"
+            required
+            id="nama"
+            value={nama && nama}
+            onChange={this.handleChange}
+          />
           <label htmlFor="nama">Nama</label>
         </div>
         <div className="input-field">
@@ -49,6 +60,7 @@ class SubMasterAdd extends Component {
             id="desc"
             required
             className="materialize-textarea"
+            value={desc && desc}
             onChange={this.handleChange}
           ></textarea>
           <label htmlFor="desc">Deskripsi</label>
