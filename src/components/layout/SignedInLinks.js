@@ -75,12 +75,12 @@ class SignedInLinks extends Component {
           </li>
 
           <li>
-            <NavLink to="/report">
+            <NavLink to="/report" className="hide">
               <i className="material-icons white-text">assignment</i>
               <span className="white-text">Report</span>
             </NavLink>
           </li>
-          <li className="hide">
+          <li className="show">
             <NavLink to="/trend">
               <i className="material-icons white-text">assessment</i>
               <span className="white-text">Trend</span>

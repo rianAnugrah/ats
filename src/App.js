@@ -11,6 +11,8 @@ import master from './scenes/master/master';
 import CreateProject from './scenes/projects/CreateProject'
 import Promise from './scenes/promise';
 import SubMaster from './scenes/submaster/SubMaster';
+import Report from './scenes/report/Report';
+import Trend from './scenes/trend/Trend';
 
 class App extends Component {
   render() {
@@ -35,6 +37,8 @@ class App extends Component {
             <Route path='/master' component={master} />
             <Route path='/create' component={CreateProject} />
             <Route path='/submaster' component={SubMaster} />
+            <Route path='/report' component={Report} />
+            <Route path='/trend' component={Trend} />
 
             {/* <Route path='/promise' component={Promise} /> */}
 
