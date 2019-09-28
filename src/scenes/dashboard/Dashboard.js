@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import { Redirect } from 'react-router-dom'
+import { Trend } from './Trend'
 
 class Dashboard extends Component {
   render() {
@@ -14,14 +15,27 @@ class Dashboard extends Component {
     const { projects, auth } = this.props;
     if ( !auth.uid ) return <Redirect to= '/signin' />
     return (
-      <div className="dashboard container">
+      <div>
         <div className="row">
-          <div className="col s12 m6">
-            {/* <ProjectList projects={projects} /> */}
+        <div className="col s12">
+                    <h4>Dashboard</h4>
+            </div>
+        <div className="col s12 m8 paper z-depth-1">
+        <label style={{fontWeight : 500}}>Trend this month</label>
+           <Trend type="bar" />
           </div>
-          <div className="col s12 m5 offset-m1">
-            {/* <Notifications /> */}
+
+          <div className="col s12 m3 paper z-depth-1">
+            <label style={{fontWeight : 500}}>Recent Updates</label>
+           <ul>
+             <li>- PCT added at Sep 15</li>
+           </ul>
           </div>
+
+          <div className="col s12 m8 paper z-depth-1">
+          <label style={{fontWeight : 500}}>Overview</label>
+          </div>
+         
         </div>
       </div>
     )

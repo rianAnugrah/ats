@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import config from "../../config/sheetConfig";
 import { load, saveData } from "../../helpers/spreadsheet";
+import Maintenance from "../maintenace/Maintenace";
 
 export class Report extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { cars: [], error: null };
+    this.state = { cars: [], error: null, maintenance:true };
     this.initClient = this.initClient.bind(this);
     this.onLoad = this.onLoad.bind(this);
   }
@@ -43,7 +44,12 @@ export class Report extends Component {
   }
 
   render() {
-    const { cars, error } = this.state;
+    const { cars, error, maintenance } = this.state;
+
+    if (maintenance) {
+      return <Maintenance />
+    }else{
+
     if (error) {
       return <div>{this.state.error}</div>;
     }
@@ -57,6 +63,7 @@ export class Report extends Component {
       </ul>
     );
   }
+}
 }
 
 export default Report;

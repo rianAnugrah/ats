@@ -10,7 +10,6 @@ import {
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
-import Maintenance from "../maintenace/Maintenace";
 
 export class Trend extends Component {
   constructor(props) {
@@ -21,8 +20,7 @@ export class Trend extends Component {
       jenis: "",
       pct: "",
       area: "",
-      lokasi: "",
-      maintenance: true
+      lokasi: ""
     };
 
     this.handleReset = this.handleReset.bind(this);
@@ -39,7 +37,6 @@ export class Trend extends Component {
   }
 
   render() {
-    const { maintenance } = this.state;
     const { pct } = this.props;
 
     const data = [
@@ -56,20 +53,16 @@ export class Trend extends Component {
     ];
 
     const data2 = [
-      pct &&
-        pct.map((item, index) => {
-          return { x: index, y: item.id };
-        })
+      pct && pct.map((item, index) => {
+        return { x: index, y: item.id };
+      })
     ];
 
-    console.log(data2);
-
-    return maintenance == true ? (
-      <Maintenance />
-    ) : (
+    console.log(data2)
+    return (
       <Fragment>
-        <button onClinck={this.handleReset}>Reset</button>
-        <div style={{ width: "50vw", height: "50vh" }}>
+
+        <div style={{  height: "50vh" }}>
           <FlexibleXYPlot>
             <VerticalGridLines />
             <HorizontalGridLines />
