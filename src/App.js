@@ -37,7 +37,7 @@ class App extends Component {
             <Route path='/master' component={master} />
             <Route path='/create' component={CreateProject} />
             <Route path='/submaster' component={SubMaster} />
-            <Route path='/report' component={Report} />
+            {/* <Route path='/report' component={Report} /> */}
             <Route path='/trend' component={Trend} />
 
             {/* <Route path='/promise' component={Promise} /> */}

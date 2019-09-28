@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import Maintenance from "../maintenace/Maintenace";
+import CounterKategori from "./CounterKategori";
 
 export class Trend extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ export class Trend extends Component {
       pct: "",
       area: "",
       lokasi: "",
-      maintenance: true
+      maintenance: false
     };
 
     this.handleReset = this.handleReset.bind(this);
@@ -40,7 +41,7 @@ export class Trend extends Component {
 
   render() {
     const { maintenance } = this.state;
-    const { pct } = this.props;
+    const { pct, kategori, sub_kategori } = this.props;
 
     const data = [
       { x: 0, y: 8 },
@@ -62,21 +63,31 @@ export class Trend extends Component {
         })
     ];
 
-    console.log(data2);
+    //console.log(data2);
+    //console.log("kategori", kategori);
 
     return maintenance == true ? (
       <Maintenance />
     ) : (
       <Fragment>
-        <button onClinck={this.handleReset}>Reset</button>
-        <div style={{ width: "50vw", height: "50vh" }}>
-          <FlexibleXYPlot>
+        {/* <button onClinck={this.handleReset}>Reset</button> */}
+        <div
+          className="paper z-depth-1 hide"
+          style={{ width: "20vw", height: "20vh" }}
+        >
+          {/* <FlexibleXYPlot>
             <VerticalGridLines />
             <HorizontalGridLines />
             <XAxis />
             <YAxis />
             <VerticalBarSeries color="#4fc3f7 " data={data} />
-          </FlexibleXYPlot>
+          </FlexibleXYPlot> */}
+        </div>
+
+        <div className="paper z-depth-1">
+          {kategori && kategori.map((kat, index) => {
+            return <CounterKategori items={kat} key={kat.id}/>;
+          })}
         </div>
       </Fragment>
     );
@@ -109,6 +120,7 @@ export default compose(
   ),
   firestoreConnect([
     "col_kategori",
+    "col_sub_kategori",
     "col_area",
     "col_jenis",
     "col_lokasi",

@@ -108,14 +108,17 @@ class PctAdd extends Component {
   handleSubmit(e) {
     e.preventDefault();
     console.log("submit");
-    if (!this.state.value.id) {
-      this.props
-        .addPCT(this.state.postData)
-        .then(this.setState({ redirect: true }));
+    if (!this.state.value) {
+      this.props.addPCT(this.state.postData).then(() => {
+        alert("data tersimpan");
+        this.setState({ redirect: true });
+      });
+      //.then(alert('Saved'));
     } else {
       this.props
         .updatePCT(this.state.postData, this.state.value.id)
         .then(this.setState({ redirect: true }));
+      // .then(alert('Saved'));
     }
   }
 
@@ -170,6 +173,7 @@ class PctAdd extends Component {
     if (!auth.uid) return <Redirect to="/signin" />;
     if (this.state.redirect == true) return <Redirect to="/pct" />;
     console.log("POSTDATA", this.state.postData);
+    console.log("ID", this.state.value);
     return (
       <Fragment>
         <div className="row">
@@ -178,15 +182,6 @@ class PctAdd extends Component {
           </div>
           <div className="col s12 paper z-depth-1">
             <form onSubmit={this.handleSubmit}>
-              <DatePicker
-                name="tgl_temuan"
-                label="Tanggal Temuan"
-                xl="12"
-                s="12"
-                validate="true"
-                onChange={this.handleChangeTglTemuan}
-                value={postData && moment(postData.tgl_temuan).format("MMM D, YYYY")}
-              />
               <PctDropdown
                 items={kategori && kategori}
                 handleChange={this.handleChange}
@@ -198,6 +193,12 @@ class PctAdd extends Component {
                 handleChange={this.handleChange}
                 name="sub_kategori"
                 value={postData && postData.sub_kategori}
+              />
+              <PctDropdown
+                items={status && status}
+                handleChange={this.handleChange}
+                name="status"
+                value={postData && postData.status}
               />
               <PctDropdown
                 items={pic && pic}
@@ -224,12 +225,6 @@ class PctAdd extends Component {
                 value={postData && postData.prioritas}
               />
               <PctDropdown
-                items={status && status}
-                handleChange={this.handleChange}
-                name="status"
-                value={postData && postData.status}
-              />
-              <PctDropdown
                 items={jenis && jenis}
                 handleChange={this.handleChange}
                 name="jenis"
@@ -241,7 +236,11 @@ class PctAdd extends Component {
                 xl="12"
                 s="12"
                 onChange={this.handleChangeTglClose}
-                value={postData && moment(postData.tgl_close).format("MMM D, YYYY")}
+                value={
+                  postData.tgl_close
+                    ? moment(postData.tgl_close).format("MMM D, YYYY")
+                    : ""
+                }
               />
               <Textarea
                 name="deskripsi"
@@ -264,6 +263,19 @@ class PctAdd extends Component {
                 value={postData && postData.after}
               />
               <br />
+              <DatePicker
+                name="tgl_temuan"
+                label="Tanggal Temuan"
+                xl="12"
+                s="12"
+                validate="true"
+                onChange={this.handleChangeTglTemuan}
+                value={
+                  postData.tgl_temuan
+                    ? moment(postData.tgl_temuan).format("MMM D, YYYY")
+                    : ""
+                }
+              />
               <button
                 className="waves-effect waves-light light-blue lighten-2 btn round"
                 type="submit"
